@@ -29,8 +29,8 @@ class AnnabaServiceProvider extends ServiceProvider
           $this->loadViewsFrom(__DIR__.'/../resources/views','adminannaba');
 
     
-        Livewire::component('AnnabaForm', \Annaba\Admin\Crud\AnnabaForm\Livewire::class);
-        Livewire::component('AnnabaListing', \Annaba\Admin\Crud\AnnabaListing\Livewire::class);
+        Livewire::component('AnnabaForm', \Annaba\Admin\Crud\Livewire\AnnabaForm::class);
+        Livewire::component('AnnabaListing', \Annaba\Admin\Crud\Livewire\AnnabaListing::class);
         Livewire::component('adminannaba1', \Annaba\Admin\Livewire\Adminannaba1::class); 
         Livewire::component('adminannaba2', \Annaba\Admin\Livewire\Adminannaba2::class); 
         Livewire::component('adminannaba3', \Annaba\Admin\Livewire\Adminannaba3::class);  
