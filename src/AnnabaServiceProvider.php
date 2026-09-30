@@ -28,6 +28,10 @@ class AnnabaServiceProvider extends ServiceProvider
 
           $this->loadViewsFrom(__DIR__.'/../resources/views','adminannaba');
 
+           $this->commands([
+            \Annaba\Admin\Commands\InstallorCommand::class,
+            \Annaba\Admin\Commands\MakePanelCommand::class,
+        ]);
     
         Livewire::component('AnnabaForm', \Annaba\Admin\Crud\Livewire\AnnabaForm::class);
         Livewire::component('AnnabaListing', \Annaba\Admin\Crud\Livewire\AnnabaListing::class);

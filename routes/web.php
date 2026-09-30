@@ -14,7 +14,7 @@ if (file_exists($filePath)) {
 
 Route::middleware('web')->group(function () {
    
-  Route::get('/annaba',\Annaba\Admin\Livewire\Adminannaba1::class);
-  Route::get('/annaba2',\Annaba\Admin\Livewire\Adminannaba2::class);
-  Route::get('/annaba3',\Annaba\Admin\Livewire\Adminannaba3::class);
+ // Route::get('/annaba',\Annaba\Admin\Livewire\Adminannaba1::class);
+ // Route::get('/annaba2',\Annaba\Admin\Livewire\Adminannaba2::class);
+//  Route::get('/annaba3',\Annaba\Admin\Livewire\Adminannaba3::class);
 });
