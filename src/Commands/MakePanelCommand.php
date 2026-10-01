@@ -379,6 +379,10 @@ STUB,
       </div>
     </div>
 
+    @include('adminannaba::composants.btnLink',
+                ['chemin' => '/admin', 'label' => 'Posts', 'icon' => 'edit'])
+
+
 </div>
 
 STUB,
