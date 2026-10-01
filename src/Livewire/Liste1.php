@@ -10,18 +10,14 @@ use Livewire\Component;
 use Illuminate\Support\Facades\File;
 use Annaba\Admin\Crud\AnnabaListing;
 use Annaba\Admin\Fields\TextInput;
-use Annaba\Admin\Fields\FileUpload;
-use Annaba\Admin\Fields\RichEditor;
-use Annaba\Admin\Fields\Select;
-use Annaba\Admin\Fields\Password;
-use Annaba\Admin\Fields\CheckboxList;
-use Annaba\Admin\Fields\Radio;
-use Annaba\Admin\Fields\Checkbox;
 
 class Liste1 extends AnnabaListing
 {
 
     public $search = '';
+    public $model = '\App\Models\Post';
+
+      public $search = '';
     public $model = '\App\Models\Post';
 
     // Réinitialise la pagination quand on tape dans la recherche
@@ -35,8 +31,6 @@ class Liste1 extends AnnabaListing
         $this->urlStorage = config('annabadmin.storage_url');
          $this->initAll();
          $this->backUp();
-      
-         
     }
 
     public function initAll() {
@@ -44,20 +38,17 @@ class Liste1 extends AnnabaListing
          $this->addForm([
             'action' => 'update1',
         ])->form([
-            RichEditor::make('name')->value('<p>Hello</p>'),
+            TextInput::make('name'),
         ])->onUpdate()
           ->btnFermer();
 
         $this->addForm([
             'action' => 'create',
         ])->form([
-            Checkbox::make('is_active')
-  ->value(false),
-            RichEditor::make('name')->value('<p>Hello</p>'),
+            TextInput::make('name'),
         ])->btnFermer();
 
         $this->addFilter('id','Id');
-        $this->addFilter('name','Nom');
 
         $this->addBulk([
         'action' => 'bulk1',
@@ -68,17 +59,7 @@ class Liste1 extends AnnabaListing
         'message' => 'Records changed'
         ]);
 
-        $this->addBulk([
-        'action' => 'bulk2',
-        'label' => 'Modifier',
-        'icon' => 'description',
-        'class' => 'text-[blue]',
-        'confirmation' => 'confirm2',
-        'message' => 'Records changed'
-        ]);
-         
-      
-        // dd($this->annabaFormList);
+     
        }
 
     public function bulk1()
@@ -86,10 +67,6 @@ class Liste1 extends AnnabaListing
         dd($this->tabIds);
     }
 
-     public function bulk2()
-    {
-        dd($this->tabIds);
-    }
 
     public function create()
     {
@@ -149,6 +126,21 @@ class Liste1 extends AnnabaListing
 
     }
 
+
+    public function deleteById($ide) {
+
+        $this->model::findOrFail($ide)->delete();
+        $this->js(<<<'JS'
+        const notyf = new Notyf({
+           position: {
+               x: 'right',
+               y: 'top',
+            },
+        });
+        notyf.success("Post supprimé avec succés!");
+       JS);   
+    }
+
     public function render()
     {
         $query = $this->model::query();
@@ -162,7 +154,7 @@ class Liste1 extends AnnabaListing
             $query->orderBy($key, $value) ;
         }
 
-        $entitys = $query->paginate(1);
+        $entitys = $query->paginate(10);
 
         return view('adminannaba::livewire.liste1', [
             'entitys' => $entitys,

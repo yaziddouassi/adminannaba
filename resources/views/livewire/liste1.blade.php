@@ -46,10 +46,13 @@
           <td class="px-[5px] py-3 text-center">{{ $entity->name }}</td>
           <td class="px-[5px] py-3 text-center">
                <div class="flex gap-[5px] justify-center">
+                @include('adminannaba::composants.btnDeleteById',
+                 ['ide' => $entity->id ,
+                 'message' => 'Êtes-vous sûr de vouloir supprimer cet élément ?'])
                 @include('adminannaba::composants.btnModal2',
                ['form' => 'update1' , 'label' => 'Edit', 'icon' => 'edit',
                 'record' => $entity ,
-               'class' => 'bg-[red] text-white p-[11px] rounded-[6px]'])
+               'class' => 'bg-[green] text-white p-[11px] rounded-[6px]'])
              </div>
 
 
