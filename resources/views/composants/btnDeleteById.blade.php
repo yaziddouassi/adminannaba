@@ -5,7 +5,7 @@
         wire:click="deleteById('{{$ide}}')"
         wire:confirm="'{{$message}}'">
         <span class="material-icons text-[16px]">
-            edit
+            delete
         </span>
     </button>
 </div>

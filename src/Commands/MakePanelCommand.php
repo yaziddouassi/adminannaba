@@ -367,11 +367,18 @@ STUB,
         </div>
     </div>
 
-    <div class="h-[74px] bg-[#444] text-center text-[22px] pt-[16px] cursor-pointer">
+     <div class="flex gap-[10px] pl-[8px] text-[22px] pt-[16px] cursor-pointer">
+      <div class="pt-[4px]">
+        <span class="material-icons cursor-pointer"
+        wire:click="logout" wire:confirm="Voulez-vous vraiment vous déconnecter ?">toggle_off</span>
+      </div>
+      <div>
         <span wire:click="logout" wire:confirm="Voulez-vous vraiment vous déconnecter ?">
-            Se Deconnecter
+           Deconnexion
         </span>
+      </div>
     </div>
+
 </div>
 
 STUB,

@@ -31,6 +31,8 @@ class AnnabaServiceProvider extends ServiceProvider
            $this->commands([
             \Annaba\Admin\Commands\InstallorCommand::class,
             \Annaba\Admin\Commands\MakePanelCommand::class,
+            \Annaba\Admin\Commands\ListeCommand::class,
+            \Annaba\Admin\Commands\FormCommand::class,
         ]);
     
         Livewire::component('AnnabaForm', \Annaba\Admin\Crud\Livewire\AnnabaForm::class);
