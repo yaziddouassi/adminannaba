@@ -33,6 +33,8 @@ class AnnabaServiceProvider extends ServiceProvider
             \Annaba\Admin\Commands\MakePanelCommand::class,
             \Annaba\Admin\Commands\ListeCommand::class,
             \Annaba\Admin\Commands\FormCommand::class,
+            \Annaba\Admin\Commands\ChartCommand::class,
+            \Annaba\Admin\Commands\WidgetCommand::class,
         ]);
     
         Livewire::component('AnnabaForm', \Annaba\Admin\Crud\Livewire\AnnabaForm::class);
