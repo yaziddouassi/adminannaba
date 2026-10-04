@@ -171,7 +171,9 @@ H;
 
     public function render()
     {
-        return view('%%VIEW%%');
+        return view('%%VIEW%%', [
+            'selectedRecords' => $this->annabaSelectedRecords(),
+        ]);
     }
 }
 T;

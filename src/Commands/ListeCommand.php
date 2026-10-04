@@ -175,6 +175,7 @@ STUB;
 
         return view('%%VIEW%%', [
             'entitys' => $entitys,
+            'selectedRecords' => $this->annabaSelectedRecords(),
         ]);
     }
 }
