@@ -150,24 +150,7 @@ class SelectCollection
         $this->getRecords();
 
         
-        $nameSession = 'annaba-' . $generator->customActionUrlTemoin . '-optionselect-' . $this->field ;  ;
-        $contentSession = [];
-        $contentSession['permissions'] = $generator->permissionTemoin;
-        $contentSession['customActionUrlTemoin'] = $generator->customActionUrlTemoin;
-        $contentSession['model'] = $this->model ;
-        $contentSession['fillables'] = $this->fillables ;
-        $contentSession['colonneContent'] = $this->colonneContent ;
-        $contentSession['colonneLabel'] = $this->colonneLabel ;
-        $contentSession['contents'] = $this->contents ;
-        $contentSession['labels'] = $this->labels ;
-        $contentSession['queryList'] = $this->queryList ;
-        $contentSession['querySearch'] = $this->querySearch ;
-        $contentSession['lazyLoad'] = $this->lazyLoad ;
-        $contentSession['limit'] = $this->limit ;
-        $contentSession['limitStart'] = $this->limit ;
-        $contentSession['avanceOnLimit'] = 'oui' ;
-        $contentSession['numberToskip'] = 0 ;
-
+        
         // dd($contentSession);
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['field'] = $this->field;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['type'] = $this->type;

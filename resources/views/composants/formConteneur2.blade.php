@@ -9,6 +9,11 @@
                   ['form' =>  $currentFormOpen, 'field' => $field['field']] )
            @endif
 
+            @if($field['type'] == 'SelectCollection')
+                @include('adminannaba::fields.inputSelectCollection',
+                  ['form' =>  $currentFormOpen, 'field' => $field['field']] )
+           @endif
+
            @if($field['type'] == 'Quill')
                 @include('adminannaba::fields.quill',
                   ['form' =>  $currentFormOpen, 'field' => $field['field']] )

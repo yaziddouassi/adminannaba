@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Computed;
 
 class AnnabaListing extends Component
 {
@@ -29,8 +30,46 @@ class AnnabaListing extends Component
    public array $filters = [];
    public array $filterActifs = [];
    public array $bulks = [];
+   public  $selectedRecords;
    public $record ;
    public $urlStorage ;
+
+
+    public function annabaSelectedRecords()
+    {
+        
+       $collectionSelected = [] ;
+
+       foreach ($this->annabaFormList as $key => $formList) {
+           foreach ($formList['fields'] as $key2 => $field) {
+
+        if ($field['type'] == 'SelectCollection') {
+            $page = 'select_'  . $key . '_' . $field['field'] . '_page';
+            $model     = $field['options']['model'];
+            $search    = $field['options']['querySearch'] ?? '';
+            // fillables définis dans les options, sinon ceux du modèle
+            $fillables = $field['options']['fillables']
+                ?? (new $model)->getFillable();
+
+            $collectionSelected[$key][$field['field']] = $model::query()
+                ->when($search !== '', function ($query) use ($fillables, $search) {
+                    $query->where(function ($q) use ($fillables, $search) {
+                        foreach ($fillables as $column) {
+                            $q->orWhere($column, 'like', "%{$search}%");
+                        }
+                    });
+                })
+                ->paginate(1,['*'],$page );
+             }
+            }
+         }
+         return  $collectionSelected ;
+    }
+
+
+    public function resetSearchCollection($form,$field) {
+     $this->annabaFormList[$form]['fields'][$field]['options']['querySearch'] = '';
+    }
 
 
     public function addForm(array $settings): self
@@ -120,7 +159,7 @@ class AnnabaListing extends Component
            if($field['type'] == 'Text' || $field['type'] == 'Date' || $field['type'] == 'Number'
                 || $field['type'] == 'Quill' || $field['type'] == 'Checkbox' ||
                 $field['type'] == 'Select' ||  $field['type'] == 'Radio' || 
-                 $field['type'] == 'CheckboxList') {
+                 $field['type'] == 'CheckboxList' ||  $field['type'] == 'SelectCollection') {
               if($field['options']['noDatabase'] == 'no') {
                 $this->record[$field['field']] = $field['value'];
 
@@ -212,7 +251,7 @@ class AnnabaListing extends Component
            if($field['type'] == 'Text' || $field['type'] == 'Date' || $field['type'] == 'Number'
                || $field['type'] == 'Quill' || $field['type'] == 'Checkbox' ||
                 $field['type'] == 'Select' ||  $field['type'] == 'Radio' || 
-                 $field['type'] == 'CheckboxList') {
+                 $field['type'] == 'CheckboxList' ||  $field['type'] == 'SelectCollection') {
               if($field['options']['noDatabase'] == 'no') {
                 $this->record[$field['field']] = $field['value'];
               }
