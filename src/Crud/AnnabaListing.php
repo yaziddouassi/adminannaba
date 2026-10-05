@@ -30,7 +30,6 @@ class AnnabaListing extends Component
    public array $filters = [];
    public array $filterActifs = [];
    public array $bulks = [];
-   public  $selectedRecords;
    public $record ;
    public $urlStorage ;
 
@@ -59,7 +58,7 @@ class AnnabaListing extends Component
                         }
                     });
                 })
-                ->paginate(1,['*'],$page );
+                ->paginate(10,['*'],$page );
              }
             }
          }

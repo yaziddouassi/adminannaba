@@ -52,7 +52,7 @@ class AnnabaForm extends Component
                         }
                     });
                 })
-                ->paginate(1,['*'],$page );
+                ->paginate(10,['*'],$page );
              }
             }
          }
