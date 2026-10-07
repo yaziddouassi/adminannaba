@@ -1,5 +1,5 @@
 @php
-    $type = $type ?? 'file';
+    $type = $annabaFormList[$form]['fields'][$field]['typeBis'] ?? 'file';
 
     $config = [
         'image' => [
@@ -25,8 +25,7 @@
     ];
 
     $accept = $config[$type]['accept'] ?? null;
-    $buttonLabel = $config[$type]['buttonLabel'] ?? 'Add File';
-    $previewLabel = $config[$type]['previewLabel'] ?? null;
+    $buttonLabel = $config[$type]['buttonLabel'] ?? 'Choisir un fichier'; 
 @endphp
 
 <div class="w-full"
@@ -41,16 +40,16 @@
     x-on:livewire-upload-error="isUploading = false"
     x-on:livewire-upload-progress="progress = $event.detail.progress">
 
-    <div class="mb-[5px]">
-        <span class="text-[darkblue] font-bold">{{ $label }}</span>
-        <span class="text-[red]">@if($required == true)*@endif</span>
+    <div class="w-full mb-[5px]">
+      <span class="text-black font-bold">
+        {{$annabaFormList[$form]['fields'][$field]['options']['label']}}</span>
     </div>
 
     <div class="w-full flex items-center justify-center">
         <label class="w-full">
             <input
                 type="file"
-                wire:model="annabaMultipleFiles.{{ $file }}"
+                wire:model="annabaFormList.{{$form}}.fields.{{$field}}.value"
                 @if($accept) accept="{{ $accept }}" @endif
                 hidden
                 x-ref="fileInput"
@@ -67,11 +66,10 @@
         </label>
     </div>
 
-    @if($type !== 'file')
+    @if($type !== 'file' && !empty($annabaFormList[$form]['fields'][$field]['value']))
         <!-- Aperçu du dernier fichier sélectionné -->
         <template x-if="lastFileUrl">
             <div class="mt-4 w-full">
-                <span class="text-green-600 font-semibold">{{ $previewLabel }}</span>
                 @if($type === 'image')
                     <img :src="lastFileUrl" alt="Dernière image" class="mt-2 rounded w-[150px] h-auto border shadow">
                 @elseif($type === 'audio')
@@ -83,31 +81,25 @@
         </template>
     @endif
 
-    @foreach ($annabaMultipleFiles[$file] as $key => $item)
+    @foreach ($annabaFormList[$form]['fields'][$field]['value'] as $key => $item)
         <div class="flex bg-[#DDD] text-black border-[2px] border-white mt-[10px] p-[10px] pb-[20px] pt-[20px] rounded-[5px]">
             <div class="w-full">
                 @if ($item)
-                    {{ $item->getClientOriginalName() }}
+                    {{$item->getClientOriginalName()}}
                 @endif
             </div>
             <div>
                 <span class="material-icons text-[red] text-[30px] cursor-pointer"
-                    wire:click="annabaDeleteFileByKey('{{ $file }}','{{ $key }}')">
+                  wire:click="annabaDeleteFileByKey('{{$form}}','{{$field}}','{{$key}}')"  >
                     delete_forever
                 </span>
             </div>
         </div>
     @endforeach
 
-    @if($type === 'file')
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-    @endif
+    
 
-    @error("annabaMultipleFiles.$file")
+    @error("annabaFormList.$form.fields.$field.value")
         <div class="text-[red] pt-[5px]">
             <span class="error">{{ $message }}</span>
         </div>

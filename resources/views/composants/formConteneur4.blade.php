@@ -14,6 +14,11 @@
                   ['form' =>  $currentFormOpen, 'field' => $field['field']] )
            @endif
 
+            @if($field['type'] == 'MultipleFile')
+                @include('adminannaba::fields.multipleFile',
+                  ['form' =>  $currentFormOpen, 'field' => $field['field']] )
+           @endif
+
             @if($field['type'] == 'SelectCollection')
                 @include('adminannaba::fields.inputSelectCollection',
                   ['form' =>  $currentFormOpen, 'field' => $field['field']] )

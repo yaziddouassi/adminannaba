@@ -34,6 +34,14 @@ class AnnabaListing extends Component
    public $urlStorage ;
 
 
+     public function annabaDeleteFileByKey($form,$field,$key) {
+        unset($this->annabaFormList[$form]['fields'][$field]['value'][$key]);
+     }
+
+      public function annabaDeleteRecordByKey($form,$field,$key) {
+        unset($this->annabaFormList[$form]['fields'][$field]['options']['existingFiles'][$key]);
+     }
+
     public function annabaSelectedRecords()
     {
         
@@ -58,7 +66,7 @@ class AnnabaListing extends Component
                         }
                     });
                 })
-                ->paginate(10,['*'],$page );
+                ->paginate(1,['*'],$page );
              }
             }
          }
@@ -175,6 +183,15 @@ class AnnabaListing extends Component
              
            }
 
+
+             if($field['type'] == 'MultipleFile') {
+              if($field['options']['noDatabase'] == 'no') { 
+                $this->annabaFormList[$formName]['fields'][$key]['value'] = []  ;        
+               $this->annabaFormList[$formName]['fields'][$key]['options']['existingFiles']  = $record[$key] ;
+                
+              }
+             
+           }
           
 
       }
@@ -242,7 +259,7 @@ class AnnabaListing extends Component
     }
 
 
-      public function insert($formName)
+       public function insert($formName)
     {
 
       foreach ($this->annabaFormList[$formName]['fields'] as $key => $field) {
@@ -278,6 +295,43 @@ class AnnabaListing extends Component
            }
 
 
+            if($field['type'] == 'MultipleFile') {
+              if($field['options']['noDatabase'] == 'no') {
+                 if($field['value'] != []) {
+
+                    $temp = [] ;
+                    foreach ($field['value'] as $key2 => $fichier) {
+                     
+                    $randomString = Str::random(10);
+                    $ext = $fichier->getClientOriginalExtension();
+                    $name1 = time(). '-'. $randomString .'.'.$ext;
+                    $folder = $field['options']['folder'] ;
+                    $name2 = $folder. '/' . $name1;
+                    $fichier->storeAs($folder,$name1, 'public');
+                    array_push($temp, $name2);
+                    }
+                 
+
+                    if($this->annabaFormList[$formName]['info']['formType'] == 'creator' ||
+                     $this->annabaFormList[$formName]['info']['formType'] == 'wizardCreator') {
+                      $this->record[$field['field']] =  $temp;  
+                    }
+
+                     if($this->annabaFormList[$formName]['info']['formType'] == 'updator' ||
+                     $this->annabaFormList[$formName]['info']['formType'] == 'wizardUpdator') {
+                     $this->record[$field['field']] =  $temp;  
+                     }
+                     $mergedArray = array_merge($temp, $field['options']['existingFiles']);
+                     $this->record[$field['field']] = $mergedArray ; 
+                    }
+                  
+                 }
+               
+              }
+             
+           
+
+
 
            if($field['type'] == 'Password') {
               if($field['options']['noDatabase'] == 'no') {
@@ -295,7 +349,6 @@ class AnnabaListing extends Component
       }
       
     }
-
 
       public function update($formName)
     {

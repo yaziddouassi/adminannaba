@@ -5,6 +5,7 @@ class MultipleFile
 {
     protected string $field;
     protected string $type = 'MultipleFile';
+    protected string $typeBis = 'file';
     protected $defaultValue = [];
     protected $label = '';
     protected $noDatabase = 'no';
@@ -19,7 +20,7 @@ class MultipleFile
     {
         $instance = new self();
         $instance->field = $field;
-        $instance->folder = config('annaba.storage_folder');
+        $instance->folder = config('annabadmin.storage_folder');
         $instance->label = ucfirst($field);
         return $instance;
     }
@@ -72,11 +73,30 @@ class MultipleFile
         return $this;
     }
 
+     public function image(): self
+    {
+        $this->typeBis = 'image';
+        return $this;
+    }
+
+     public function video(): self
+    {
+        $this->typeBis = 'video';
+        return $this;
+    }
+
+    public function audio(): self
+    {
+        $this->typeBis = 'audio';
+        return $this;
+    }
+
     public function registerToCustomAction($generator): void
     {
 
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['field'] = $this->field;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['type'] = 'MultipleFile';
+        $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['typeBis'] = $this->typeBis;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['value'] = $this->defaultValue;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['label'] = $this->label;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['defaultValue'] = $this->defaultValue;
@@ -87,7 +107,7 @@ class MultipleFile
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['noTouchable'] = $this->noTouchable;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['readOnly'] = $this->readOnly;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['maxNumberFiles'] = $this->maxNumberFiles;
-        $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['storage_folder'] = $this->folder;
+        $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['folder'] = $this->folder;
         $generator->annabaFormList[$generator->customActionUrlTemoin]['fields'][$this->field]['options']['colSpan'] = $this->colSpan;
     }   
 
